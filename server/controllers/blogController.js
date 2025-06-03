@@ -28,7 +28,7 @@ const getBlogs = asyncHandler(async (req, res) => {
   const response = await Blog.find();
   return res.status(200).json({
     success: response ? true : false,
-    updatedBlog: response ? response : "Cannot get blogs",
+    response: response ? response : "Cannot get blogs",
   });
 });
 const getBlog = asyncHandler(async (req, res) => {
