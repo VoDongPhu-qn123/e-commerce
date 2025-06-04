@@ -7,7 +7,7 @@ const {
   generateRefreshToken,
 } = require("../middlewares/jwt");
 const sendMail = require("../ultils/sendMail");
-
+const normalizeAddress = require("../ultils/normalizaAddress");
 const register = asyncHandler(async (req, res) => {
   const { email, password, firstName, lastName } = req.body;
   if (!email || !password || !firstName || !lastName) {
@@ -203,6 +203,18 @@ const updateUser = asyncHandler(async (req, res) => {
   if (!_id || Object.keys(req.body).length === 0) {
     throw new Error("Missing inputs");
   }
+  // // Tách address ra khỏi phần còn lại
+  // const { address, ...otherFields } = req.body;
+  // // Tạo đối tượng cập nhật
+  // const updateData = {};
+  // // Nếu có các trường khác thì dùng $set
+  // if (Object.keys(otherFields).length > 0) {
+  //   updateData.$set = otherFields;
+  // }
+  // // Nếu có address thì push
+  // if (address) {
+  //   updateData.$push = { address: address };
+  // }
   const response = await User.findByIdAndUpdate(_id, req.body, {
     new: true,
   }).select("-password -role -refreshToken");
@@ -224,6 +236,31 @@ const updateUserByAdmin = asyncHandler(async (req, res) => {
     updatedUserByAdmin: response ? response : "Something went wrong",
   });
 });
+const updateUserAddress = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  const { address } = req.body;
+  if (!address) {
+    throw new Error("Missing address inputs");
+  }
+  const user = await User.findById(_id);
+  if (!user) {
+    throw new Error("User not found");
+  }
+  const isDuplicate = user.address.some(
+    (el) => normalizeAddress(el) === normalizeAddress(address)
+  );
+  if (isDuplicate) throw new Error("Address already exists");
+  const response = await User.findByIdAndUpdate(
+    _id,
+    { $push: { address: address } },
+    { new: true }
+  ).select("-password -role -refreshToken");
+  return res.status(200).json({
+    success: response ? true : false,
+    response: response || "Cannot update user Address",
+  });
+});
+
 module.exports = {
   register,
   login,
@@ -236,4 +273,5 @@ module.exports = {
   deleteUserByAdmin,
   updateUser,
   updateUserByAdmin,
+  updateUserAddress,
 };

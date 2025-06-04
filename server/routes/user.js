@@ -24,4 +24,5 @@ router.put(
   [verifyToken, isAdmin],
   userController.updateUserByAdmin
 );
+router.put("/address", verifyToken, userController.updateUserAddress);
 module.exports = router;
