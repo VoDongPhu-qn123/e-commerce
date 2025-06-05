@@ -1,5 +1,5 @@
 //Hàm xử lý chuẩn hoá địa chỉ trước khi so sánh
-const normalizeAddress = (str) => {
+const normalize = (str) => {
   return str
     .normalize("NFD") // Bỏ dấu
     .replace(/[\u0300-\u036f]/g, "") // Bỏ ký tự unicode của dấu
@@ -7,4 +7,4 @@ const normalizeAddress = (str) => {
     .trim() // Bỏ khoảng trắng đầu/cuối
     .replace(/\s+/g, " "); // Bỏ khoảng trắng thừa giữa các từ
 };
-module.exports = normalizeAddress;
+module.exports = normalize;

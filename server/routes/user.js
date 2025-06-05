@@ -25,4 +25,5 @@ router.put(
   userController.updateUserByAdmin
 );
 router.put("/address", verifyToken, userController.updateUserAddress);
+router.put("/cart", verifyToken, userController.updateCart);
 module.exports = router;

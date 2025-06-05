@@ -2,12 +2,12 @@ const asyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 const crypto = require("crypto");
+const normalize = require("../ultils/normalize");
 const {
   generateAccessToken,
   generateRefreshToken,
 } = require("../middlewares/jwt");
 const sendMail = require("../ultils/sendMail");
-const normalizeAddress = require("../ultils/normalizaAddress");
 const register = asyncHandler(async (req, res) => {
   const { email, password, firstName, lastName } = req.body;
   if (!email || !password || !firstName || !lastName) {
@@ -247,7 +247,7 @@ const updateUserAddress = asyncHandler(async (req, res) => {
     throw new Error("User not found");
   }
   const isDuplicate = user.address.some(
-    (el) => normalizeAddress(el) === normalizeAddress(address)
+    (el) => normalize(el) === normalize(address)
   );
   if (isDuplicate) throw new Error("Address already exists");
   const response = await User.findByIdAndUpdate(
@@ -260,7 +260,44 @@ const updateUserAddress = asyncHandler(async (req, res) => {
     response: response || "Cannot update user Address",
   });
 });
-
+const updateCart = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  const { productId, quantity, color } = req.body;
+  if (!productId || !quantity || !color) {
+    throw new Error("Missing inputs");
+  }
+  const user = await User.findById(_id);
+  if (!user) {
+    throw new Error("User not found");
+  }
+  const alreadyProductWithColor = user.cart.find(
+    (el) =>
+      el.product.toString() === productId &&
+      normalize(el.color) === normalize(color)
+  ); // Kiểm tra đã có sản phẩm + màu này chưa
+  if (alreadyProductWithColor) {
+    await User.findOneAndUpdate(
+      {
+        _id: _id,
+        cart: { $elemMatch: { product: productId, color: color } },
+      },
+      {
+        $inc: { "cart.$.quantity": +quantity },
+      }
+    ); //  Nếu đã tồn tại → cập nhật số lượng:
+  } else {
+    await User.findByIdAndUpdate(
+      _id,
+      { $push: { cart: { product: productId, quantity, color } } },
+      { new: true }
+    );
+  } // nếu chưa thì thêm mới
+  const updatedUser = await User.findById(_id).populate("cart.product", "name");
+  return res.status(200).json({
+    success: updatedUser ? true : false,
+    updatedCart: updatedUser.cart || "Something went wrong",
+  });
+});
 module.exports = {
   register,
   login,
@@ -274,4 +311,5 @@ module.exports = {
   updateUser,
   updateUserByAdmin,
   updateUserAddress,
+  updateCart,
 };
