@@ -6,11 +6,7 @@ router.post(
   [verifyToken, isAdmin],
   productCategoryController.createProductCategory
 );
-router.get(
-  "/",
-  [verifyToken, isAdmin],
-  productCategoryController.getProductCategories
-);
+router.get("/", productCategoryController.getProductCategories);
 router.put(
   "/:productCategoryId",
   [verifyToken, isAdmin],
