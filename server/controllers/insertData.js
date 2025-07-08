@@ -8,7 +8,7 @@ const slugify = require("slugify");
 const fnProduct = async (product) => {
   await Product.create({
     name: product?.name,
-    slug: slugify(product?.name) + Math.round(Math.random() * 100) + "",
+    slug: slugify(product?.name) + Math.round(Math.random() * 100000) + "",
     description: product?.description.join("/n"),
     brand: product?.brand,
     price: Math.round(Number(product?.price?.match(/\d/g).join("")) / 100),
@@ -20,6 +20,8 @@ const fnProduct = async (product) => {
     storage: product?.variants?.find((el) => el.label === "Internal")
       ?.variants[0],
     ram: product?.variants?.find((el) => el.label === "Ram")?.variants[0],
+    thumbnail: product?.thumbnail,
+    totalRatings: Math.round(Math.random() * 5),
   });
 };
 const fnCategory = async (category) => {

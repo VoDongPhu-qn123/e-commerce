@@ -11,7 +11,7 @@ var productSchema = new mongoose.Schema(
     slug: {
       type: String,
       required: true,
-      //unique: true,
+      unique: true,
       lowercase: true,
     },
     description: {
@@ -21,6 +21,10 @@ var productSchema = new mongoose.Schema(
     brand: {
       type: String,
       required: true,
+    },
+    thumbnail: {
+      type: String,
+      require: true,
     },
     price: {
       type: Number,

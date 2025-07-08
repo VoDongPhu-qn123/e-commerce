@@ -26,6 +26,7 @@ const getProduct = asyncHandler(async (req, res) => {
 const getProducts = asyncHandler(async (req, res) => {
   const queries = { ...req.query }; //Sao chép tất cả các thuộc tính của query vào object queries
   // Tách các trường đặc biệt ra khỏi queries
+
   const excludeFields = ["limit", "sort", "page", "fields"];
   excludeFields.forEach((element) => delete queries[element]);
   // Format lại các operators cho đúng cú pháp mongoose
@@ -41,11 +42,11 @@ const getProducts = asyncHandler(async (req, res) => {
   if (queries?.name) {
     formatedQueries.name = { $regex: queries.name, $options: "i" };
   } //options tìm mà ko phân biệt chữ hoa hoặc thường
-  console.log(formatedQueries);
+  //console.log(formatedQueries);
 
   //Sorting
   const sortBy = req.query.sort?.split(",").join(" ");
-
+  console.log(sortBy);
   //Fields limiting
   const fields = req.query.fields?.split(",").join(" ");
 

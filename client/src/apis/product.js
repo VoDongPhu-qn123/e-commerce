@@ -1,8 +1,9 @@
 import axios from "../axios";
-export const apiGetCategories = async () => {
+export const apiGetProducts = async (params) => {
   const response = await axios({
-    url: "/productCategory",
+    url: "/product",
     method: "GET",
+    params,
   });
   return response;
 };
