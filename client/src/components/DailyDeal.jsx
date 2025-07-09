@@ -99,7 +99,9 @@ const DailyDeal = () => {
         <span className="flex-1"></span>
       </div>
       {loading ? (
-        <div className="w-full flex flex-col px-5 pt-8 items-center gap-2 text-gray-500">Đang tải...</div>
+        <div className="w-full flex flex-col px-5 pt-8 items-center gap-2 text-gray-500">
+          Đang tải...
+        </div>
       ) : dailyDeal ? (
         <>
           <div className="w-full flex flex-col px-5 pt-8 items-center gap-2">
@@ -123,7 +125,9 @@ const DailyDeal = () => {
           </div>
         </>
       ) : (
-        <div className="w-full flex flex-col px-5 pt-8 items-center gap-2 text-red-500">Không có daily deal nào!</div>
+        <div className="w-full flex flex-col px-5 pt-8 items-center gap-2 text-red-500">
+          Không có daily deal nào!
+        </div>
       )}
     </div>
   );
