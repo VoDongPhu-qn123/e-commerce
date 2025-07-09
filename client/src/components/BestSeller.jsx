@@ -30,13 +30,10 @@ const BestSeller = () => {
       setNewProducts(response[1].productData);
     }
   };
-  console.log(bestSellers);
-  console.log(newProducts);
   useEffect(() => {
     fetchProducts();
   }, []);
   useEffect(() => {
-    console.log(isActive);
     if (isActive === 1) {
       setProducts(bestSellers);
     }
@@ -71,6 +68,18 @@ const BestSeller = () => {
             />
           ))}
         </Slider>
+      </div>
+      <div className="w-full mt-4 flex gap-4">
+        <img
+          className="flex-1 object-contain"
+          src="https://digital-world-2.myshopify.com/cdn/shop/files/promo-23_2000x_crop_center.png?v=1750842393"
+          alt=""
+        />
+        <img
+          className="flex-1 object-contain"
+          src="https://digital-world-2.myshopify.com/cdn/shop/files/promo-24_2000x_crop_center.png?v=1750842410"
+          alt=""
+        />
       </div>
     </div>
   );

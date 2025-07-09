@@ -1,15 +1,15 @@
 import React from "react";
-import { Banner, SideBar, BestSeller } from "../../components";
+import { Banner, SideBar, BestSeller, DailyDeal } from "../../components";
 
 const Home = () => {
   return (
     <>
       <div className="w-main flex">
-        <div className="flex flex-col gap-5 w-[20%] flex-auto">
+        <div className="flex flex-col gap-5 w-[25%] flex-auto">
           <SideBar />
-          <span>DAILY DEALS</span>
+          <DailyDeal />
         </div>
-        <div className="flex flex-col gap-5 pl-5 w-[80%] flex-auto">
+        <div className="flex flex-col gap-5 pl-5 w-[75%] flex-auto">
           <Banner />
           <BestSeller />
         </div>
