@@ -1,5 +1,11 @@
 import React from "react";
-import { Banner, SideBar, BestSeller, DailyDeal } from "../../components";
+import {
+  Banner,
+  SideBar,
+  BestSeller,
+  DailyDeal,
+  FeaturedProducts,
+} from "../../components";
 
 const Home = () => {
   return (
@@ -13,6 +19,9 @@ const Home = () => {
           <Banner />
           <BestSeller />
         </div>
+      </div>
+      <div className="mt-8">
+        <FeaturedProducts />
       </div>
       <div className="w-full h-[500px]"></div>
     </>

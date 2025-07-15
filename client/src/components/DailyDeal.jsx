@@ -1,4 +1,4 @@
-import React, { useEffect, useState, memo, useRef } from "react";
+import React, { useEffect, useState, memo, useRef, useCallback } from "react";
 import icons from "../ultils/icons";
 import { apiGetProducts } from "../apis";
 import { renderStarsFromNumber } from "../ultils/renderStar";
@@ -38,7 +38,7 @@ const DailyDeal = () => {
   };
 
   // Lấy dailyDeal mới và lưu vào localStorage
-  const fetchAndSetDailyDeal = async () => {
+  const fetchAndSetDailyDeal = useCallback(async () => {
     setLoading(true);
     const response = await apiGetProducts({
       limit: 1,
@@ -56,7 +56,7 @@ const DailyDeal = () => {
       setDailyDeal(null);
     }
     setLoading(false);
-  };
+  }, []);
 
   useEffect(() => {
     // Khi mount, kiểm tra localStorage
@@ -85,10 +85,10 @@ const DailyDeal = () => {
       }
     }, 1000);
     return () => clearInterval(idInterval.current);
-  }, []);
+  }, [fetchAndSetDailyDeal]);
 
   return (
-    <div className="w-full border flex-auto">
+    <div className="w-full border flex-auto mt-[152px] mb-0">
       <div className="flex justify-between p-4">
         <span className="flex-1 flex items-center">
           <FaStar size={20} color="#d11" />
