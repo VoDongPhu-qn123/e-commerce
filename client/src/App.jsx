@@ -1,7 +1,8 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import { Login, Home, Public } from "./pages/public";
-import { getCategories } from "./store/asyncActions";
+import { getCategories } from "./store/app/asyncActions";
+import { getNewProducts } from "./store/products/asyncAction";
 import { useDispatch } from "react-redux";
 import PATH from "./ultils/path";
 import { useEffect } from "react";
@@ -9,6 +10,7 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getCategories());
+    dispatch(getNewProducts());
   }, [dispatch]);
   return (
     <div className="min-h-screen font-main">

@@ -1,11 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import * as apis from "../apis";
-export const getCategories = createAsyncThunk(
+import * as apis from "../../apis";
+export const getNewProducts = createAsyncThunk(
   // Tên action
-  "app/getCategories",
+  "products/getNewProducts",
 
   async (_, { rejectwithValue }) => {
-    const response = await apis.apiGetCategories();
+    const response = await apis.apiGetProducts({ sort: "-createdAt" });
     if (!response.success) {
       return rejectwithValue(response);
     }
