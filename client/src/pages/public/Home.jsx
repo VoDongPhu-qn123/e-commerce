@@ -13,7 +13,7 @@ import {
 const Home = () => {
   const { newProducts } = useSelector((state) => state.products);
   const { categories } = useSelector((state) => state.app);
-  console.log(categories)
+  console.log(categories);
   return (
     <>
       <div className="w-main flex">
@@ -53,7 +53,6 @@ const Home = () => {
         </h3>
       </div>
       <div className="w-full h-[500px]"></div>
-      <div>FOOTER</div>
     </>
   );
 };

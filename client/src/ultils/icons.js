@@ -9,6 +9,14 @@ import {
   FaHeart,
 } from "react-icons/fa";
 import { IoMdMenu } from "react-icons/io";
+import { FaLocationDot } from "react-icons/fa6";
+import { IoMail } from "react-icons/io5";
+import { FaFacebookF } from "react-icons/fa6";
+import { FaXTwitter } from "react-icons/fa6";
+import { FaPinterest } from "react-icons/fa";
+import { IoLogoGoogleplus } from "react-icons/io";
+import { FaLinkedinIn } from "react-icons/fa6";
+import { FaFlickr } from "react-icons/fa";
 const icons = {
   FaPhone,
   MdEmail,
@@ -19,5 +27,13 @@ const icons = {
   FaEye,
   FaHeart,
   IoMdMenu,
+  IoMail,
+  FaLocationDot,
+  FaFacebookF,
+  FaXTwitter,
+  FaPinterest,
+  IoLogoGoogleplus,
+  FaLinkedinIn,
+  FaFlickr,
 };
 export default icons;
