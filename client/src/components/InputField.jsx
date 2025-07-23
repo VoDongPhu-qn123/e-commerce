@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-
+import { formatLabel } from "../ultils/helpers";
 const InputField = ({
   type,
   value,
@@ -12,16 +12,16 @@ const InputField = ({
     <div className="w-full relative">
       {value.trim() !== "" && (
         <label
-          className="text-[13px] absolute top-[-2px] left-[12px] px-1 bg-white block animate-slide-top-sm"
+          className="text-[13px] absolute top-[-2px] left-[12px] px-1 bg-white block animate-slide-top-sm text-main"
           htmlFor={nameKey}
         >
-          {nameKey.slice(0, 1).toUpperCase() + nameKey.slice(1)}
+          {formatLabel(nameKey)}
         </label>
       )}
 
       <input
         type={type || "text"}
-        placeholder={nameKey.slice(0, 1).toUpperCase() + nameKey.slice(1)}
+        placeholder={formatLabel(nameKey)}
         value={value}
         onChange={(e) =>
           setValue((prev) => ({ ...prev, [nameKey]: e.target.value }))
