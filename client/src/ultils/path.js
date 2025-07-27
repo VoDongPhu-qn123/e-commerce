@@ -9,5 +9,7 @@ const PATH = {
   BLOGS: "blogs",
   OUR_SERVICES: "our_services",
   FAQS: "faqs",
+  FINAL_REGISTER: "final-register/:status",
+  RESET_PASSWORD: "reset-password/:token",
 };
 export default PATH;

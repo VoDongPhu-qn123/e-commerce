@@ -10,6 +10,7 @@ app.use(
   cors({
     origin: process.env.CLIENT_URL,
     methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
   })
 ); // Kiểm tra CORS để frontend truy cập tài nguyên của backend
 app.use(express.json());

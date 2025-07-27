@@ -4,12 +4,21 @@ export const apiRegister = async (data) => {
     url: "/user/register",
     method: "POST",
     data,
+    withCredentials: true,
   });
   return response;
 };
 export const apiLogin = async (data) => {
   const response = await axios({
     url: "/user/login",
+    method: "POST",
+    data,
+  });
+  return response;
+};
+export const apiForgotPassword = async (data) => {
+  const response = await axios({
+    url: "/user/forgotpassword",
     method: "POST",
     data,
   });

@@ -9,6 +9,8 @@ import {
   Blogs,
   Services,
   FAQ,
+  FinalRegister,
+  ResetPassword,
 } from "./pages/public";
 import { getCategories } from "./store/app/asyncActions";
 import { getNewProducts } from "./store/products/asyncAction";
@@ -27,6 +29,8 @@ function App() {
         <Route path={PATH.PUBLIC} element={<Public />}>
           <Route path={PATH.HOME} element={<Home />}></Route>
           <Route path={PATH.LOGIN} element={<Login />}></Route>
+          <Route path={PATH.FINAL_REGISTER} element={<FinalRegister />}></Route>
+          <Route path={PATH.RESET_PASSWORD} element={<ResetPassword />}></Route>
           <Route path={PATH.PRODUCTS} element={<Products />}></Route>
           <Route
             path={PATH.DETAIL_PRODUCT_PID_NAME}
