@@ -206,8 +206,10 @@ const forgotPassword = asyncHandler(async (req, res) => {
   };
   const result = await sendMail(data);
   return res.status(200).json({
-    success: true,
-    result,
+    success: result.response.includes("OK") ? true : false,
+    message: result.response.includes("OK")
+      ? "Please check email to reset your password!"
+      : "Error occurred, please try again later!",
   });
 });
 const resetPassword = asyncHandler(async (req, res) => {

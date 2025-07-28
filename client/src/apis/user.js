@@ -24,3 +24,11 @@ export const apiForgotPassword = async (data) => {
   });
   return response;
 };
+export const apiResetPassword = async (data) => {
+  const response = await axios({
+    url: "/user/resetpassword",
+    method: "PUT",
+    data,
+  });
+  return response;
+};

@@ -46,7 +46,6 @@ const getProducts = asyncHandler(async (req, res) => {
 
   //Sorting
   const sortBy = req.query.sort?.split(",").join(" ");
-  console.log(sortBy);
   //Fields limiting
   const fields = req.query.fields?.split(",").join(" ");
 

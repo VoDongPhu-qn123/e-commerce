@@ -17,6 +17,7 @@ import { FaPinterest } from "react-icons/fa";
 import { IoLogoGoogleplus } from "react-icons/io";
 import { FaLinkedinIn } from "react-icons/fa6";
 import { FaFlickr } from "react-icons/fa";
+import { IoMdClose } from "react-icons/io";
 const icons = {
   FaPhone,
   MdEmail,
@@ -35,5 +36,6 @@ const icons = {
   IoLogoGoogleplus,
   FaLinkedinIn,
   FaFlickr,
+  IoMdClose,
 };
 export default icons;

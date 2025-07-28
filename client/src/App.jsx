@@ -17,6 +17,7 @@ import { getNewProducts } from "./store/products/asyncAction";
 import { useDispatch } from "react-redux";
 import PATH from "./ultils/path";
 import { useEffect } from "react";
+import { ToastContainer, Bounce } from "react-toastify";
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -41,6 +42,19 @@ function App() {
           <Route path={PATH.FAQS} element={<FAQ />}></Route>
         </Route>
       </Routes>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        transition={Bounce}
+        theme="colored"
+      />
     </div>
   );
 }
