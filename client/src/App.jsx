@@ -34,7 +34,7 @@ function App() {
           <Route path={PATH.RESET_PASSWORD} element={<ResetPassword />}></Route>
           <Route path={PATH.PRODUCTS} element={<Products />}></Route>
           <Route
-            path={PATH.DETAIL_PRODUCT_PID_NAME}
+            path={PATH.DETAIL_PRODUCT_CATEGORY_PID_NAME}
             element={<DetailProducts />}
           ></Route>
           <Route path={PATH.BLOGS} element={<Blogs />}></Route>

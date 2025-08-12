@@ -145,18 +145,19 @@ const login = asyncHandler(async (req, res) => {
     const cookieOptions = {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 ngày
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production', // Chỉ secure trong production
-      sameSite: 'lax', // Cho phép cross-site requests
-      path: '/', // Cookie có hiệu lực cho toàn bộ domain
-      domain: process.env.NODE_ENV === 'production' ? process.env.DOMAIN : undefined, // Chỉ set domain trong production
+      secure: process.env.NODE_ENV === "production", // Chỉ secure trong production
+      sameSite: "lax", // Cho phép cross-site requests
+      path: "/", // Cookie có hiệu lực cho toàn bộ domain
+      domain:
+        process.env.NODE_ENV === "production" ? process.env.DOMAIN : undefined, // Chỉ set domain trong production
     };
-    
-    console.log('Setting cookie with options:', cookieOptions);
+
+    //console.log('Setting cookie with options:', cookieOptions);
     res.cookie("refreshToken", newRefreshToken, cookieOptions);
-    
+
     // Debug: Kiểm tra xem cookie có được set không
-    console.log('Cookies after setting:', res.getHeaders()['set-cookie']);
-    
+    //console.log('Cookies after setting:', res.getHeaders()['set-cookie']);
+
     return res.status(200).json({
       success: true,
       accessToken,

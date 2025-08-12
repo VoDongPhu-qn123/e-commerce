@@ -14,7 +14,7 @@ const Product = ({ productData, isNew }) => {
   return (
     <div className="w-full text-base px-[10px]">
       <Link
-        to={`/${PATH.DETAIL_PRODUCT}/${productData?._id}/${productData?.name}`}
+        to={`/${productData?.category}/${productData?._id}/${productData?.name}`}
       >
         <div
           className="w-full border p-[15px] flex flex-col items-center"
