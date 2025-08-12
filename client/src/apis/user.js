@@ -8,6 +8,14 @@ export const apiRegister = async (data) => {
   });
   return response;
 };
+export const apiFinalRegister = async (token) => {
+  const response = await axios({
+    url: "/user/final-register",
+    method: "PUT",
+    data: { token: token },
+  });
+  return response;
+};
 export const apiLogin = async (data) => {
   const response = await axios({
     url: "/user/login",
@@ -29,6 +37,23 @@ export const apiResetPassword = async (data) => {
     url: "/user/resetpassword",
     method: "PUT",
     data,
+  });
+  return response;
+};
+export const apiGetCurrentUser = async (token) => {
+  const response = await axios({
+    url: "/user/current-user",
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+};
+export const apiLogOut = async () => {
+  const response = await axios({
+    url: "/user/logOut",
+    method: "GET",
   });
   return response;
 };

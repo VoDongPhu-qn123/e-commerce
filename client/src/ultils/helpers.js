@@ -62,3 +62,10 @@ export const validate = (payload, setInvalidFields) => {
   }
   return invalids;
 };
+export const validateEmail = (value) => {
+  const regex =
+    /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|net|org|vn|edu)(\.[a-zA-Z]{2})?$/;
+  if (value.match(regex)) {
+    return true;
+  } else return false;
+};

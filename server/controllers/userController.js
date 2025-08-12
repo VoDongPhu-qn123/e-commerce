@@ -42,48 +42,81 @@ const register = asyncHandler(async (req, res) => {
     throw new Error("User has existed!");
   } else {
     const token = makeToken();
-    res.cookie("dataRegister", JSON.stringify({ ...req.body, token }), {
-      httpOnly: true,
-      maxAge: 15 * 60 * 1000,
+    const emailEdited = btoa(email) + "@" + token;
+    const newUser = await User.create({
+      email: emailEdited,
+      password,
+      firstName,
+      lastName,
+      phoneNumber,
     });
-    const html = `Xin vui lòng click vào link dưới đây để hoàn tất quá trình đăng kí của bạn. Link này sẽ hết hạn 15 phút kể từ bây giờ. <a href=${process.env.URL_SERVER}/api/user/final-register/${token}>Click here</a>`;
-    try {
-      await sendMail({ email, html, subject: "Complete registration" });
-      return res.status(200).json({
-        success: true,
-        message: "Please check your email to active your account",
-      });
-    } catch (error) {
-      console.error("Error sending email: ", error);
-      return res.status(500).json({
-        success: false,
-        message: "Failed to send verification email. Please try again.",
-      });
+    if (newUser) {
+      const html = `<h2>Register code:</h2><br/><blockqoute>${token}</blockqoute>`;
+      await sendMail({ email, html, subject: "Confirm registered account" });
     }
+    setTimeout(async () => {
+      await User.deleteOne({ email: emailEdited });
+    }, [300000]);
+    return res.status(200).json({
+      success: newUser ? true : false,
+      message: "Please check your email to active your account",
+    });
+    // res.cookie("dataRegister", JSON.stringify({ ...req.body, token }), {
+    //   httpOnly: true,
+    //   maxAge: 15 * 60 * 1000,
+    // });
+    // const html = `Xin vui lòng click vào link dưới đây để hoàn tất quá trình đăng kí của bạn. Link này sẽ hết hạn 15 phút kể từ bây giờ. <a href=${process.env.URL_SERVER}/api/user/final-register/${token}>Click here</a>`;
+    // try {
+    //   await sendMail({ email, html, subject: "Complete registration" });
+    //   return res.status(200).json({
+    //     success: true,
+    //     message: "Please check your email to active your account",
+    //   });
+    // } catch (error) {
+    //   console.error("Error sending email: ", error);
+    //   return res.status(500).json({
+    //     success: false,
+    //     message: "Failed to send verification email. Please try again.",
+    //   });
+    // }
   }
 });
 const finalRegister = asyncHandler(async (req, res) => {
-  const cookie = req.cookies;
-  console.log(cookie?.dataRegister);
-  if (!cookie?.dataRegister) {
-    res.clearCookie("dataRegister");
-    return res.redirect(`${process.env.CLIENT_URL}/final-register/failed`);
+  const { token } = req.body;
+  console.log(req.body);
+  console.log(token);
+  const notActiveEmail = await User.findOne({ email: new RegExp(`${token}$`) });
+  if (notActiveEmail) {
+    notActiveEmail.email = atob(notActiveEmail.email.split("@")[0]);
+    notActiveEmail.save();
   }
-  const { token, ...data } = JSON.parse(cookie.dataRegister);
-  const { registerToken } = req.params;
+  return res.status(200).json({
+    success: notActiveEmail ? true : false,
+    message: notActiveEmail
+      ? "Registered successfully. Please go to login"
+      : "Something went wrong, please try later",
+  });
+  // const cookie = req.cookies;
+  // console.log(cookie?.dataRegister);
+  // if (!cookie?.dataRegister) {
+  //   res.clearCookie("dataRegister");
+  //   return res.redirect(`${process.env.CLIENT_URL}/final-register/failed`);
+  // }
+  // const { token, ...data } = JSON.parse(cookie.dataRegister);
+  // const { registerToken } = req.params;
 
-  if (token !== registerToken) {
-    res.clearCookie("dataRegister");
-    return res.redirect(`${process.env.CLIENT_URL}/final-register/failed`);
-  }
+  // if (token !== registerToken) {
+  //   res.clearCookie("dataRegister");
+  //   return res.redirect(`${process.env.CLIENT_URL}/final-register/failed`);
+  // }
 
-  const newUser = User.create(data);
-  res.clearCookie("dataRegister");
-  if (newUser) {
-    return res.redirect(`${process.env.CLIENT_URL}/final-register/success`);
-  } else {
-    return res.redirect(`${process.env.CLIENT_URL}/final-register/failed`);
-  }
+  // const newUser = User.create(data);
+  // res.clearCookie("dataRegister");
+  // if (newUser) {
+  //   return res.redirect(`${process.env.CLIENT_URL}/final-register/success`);
+  // } else {
+  //   return res.redirect(`${process.env.CLIENT_URL}/final-register/failed`);
+  // }
 });
 // refreshToken => Cấp mới accessToken
 // accessToken => Xác thực người dùng, phân quyền người dùng
@@ -109,11 +142,21 @@ const login = asyncHandler(async (req, res) => {
       { new: true }
     );
     // Lưu refreshToken vào cookie
-    res.cookie("refreshToken", newRefreshToken, {
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+    const cookieOptions = {
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 ngày
       httpOnly: true,
-      secure: true,
-    });
+      secure: process.env.NODE_ENV === 'production', // Chỉ secure trong production
+      sameSite: 'lax', // Cho phép cross-site requests
+      path: '/', // Cookie có hiệu lực cho toàn bộ domain
+      domain: process.env.NODE_ENV === 'production' ? process.env.DOMAIN : undefined, // Chỉ set domain trong production
+    };
+    
+    console.log('Setting cookie with options:', cookieOptions);
+    res.cookie("refreshToken", newRefreshToken, cookieOptions);
+    
+    // Debug: Kiểm tra xem cookie có được set không
+    console.log('Cookies after setting:', res.getHeaders()['set-cookie']);
+    
     return res.status(200).json({
       success: true,
       accessToken,
@@ -128,7 +171,7 @@ const getCurrentUser = asyncHandler(async (req, res) => {
   const user = await User.findById(_id).select("-refreshToken -password -role"); //select(-) loại trừ các trường này khỏi kết quả trả về
   return res.status(200).json({
     success: user ? true : false,
-    res: user ? user : "User not found",
+    userData: user ? user : "User not found",
   });
 });
 // Tạo accessToken mới khi nó hết hạn dựa trên refreshToken

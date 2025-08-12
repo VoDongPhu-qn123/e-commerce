@@ -1,6 +1,11 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import { InputField, Button } from "../../components";
-import { apiRegister, apiLogin, apiForgotPassword } from "../../apis";
+import {
+  apiRegister,
+  apiLogin,
+  apiForgotPassword,
+  apiFinalRegister,
+} from "../../apis";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import PATH from "../../ultils/path";
@@ -8,7 +13,7 @@ import { logInSuccess } from "../../store/user/userSlice";
 import { useDispatch } from "react-redux";
 import icons from "../../ultils/icons";
 import { toast } from "react-toastify";
-import { validate } from "../../ultils/helpers";
+import { validate, validateEmail } from "../../ultils/helpers";
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -38,18 +43,28 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [isForGotPassword, setIsForGotPassword] = useState(false);
   const [invalidFields, setInvalidFields] = useState([]);
-
+  const [token, setToken] = useState("");
+  const [isValidateEmailResetPassword, setIsValidateEmailResetPassword] =
+    useState(false);
+  const [isVerifiedEmail, setIsVerifiedEmail] = useState(false);
   useEffect(() => {
     resetPayload();
     setInvalidFields([]);
-  }, [isRegister]);
+    setIsValidateEmailResetPassword(false);
+    setEmail("");
+  }, [isRegister, isForGotPassword]);
   const handleForgotPassword = async () => {
-    const response = await apiForgotPassword({ email });
-    if (response.success) {
-      toast.success(response.message);
-      setIsForGotPassword(false);
+    if (!validateEmail(email)) {
+      setIsValidateEmailResetPassword(true);
+      console.log("123");
     } else {
-      toast.error(response.message);
+      const response = await apiForgotPassword({ email });
+      if (response.success) {
+        toast.success(response.message);
+        setIsForGotPassword(false);
+      } else {
+        toast.error(response.message);
+      }
     }
   };
   const handleSubmit = useCallback(async () => {
@@ -61,10 +76,11 @@ const Login = () => {
       if (isRegister) {
         const response = await apiRegister(payload);
         if (response.success) {
-          Swal.fire("Congratulation", response.message, "success").then(() => {
-            setIsRegister(false);
-            resetPayload();
-          });
+          setIsVerifiedEmail(true);
+          // Swal.fire("Congratulation", response.message, "success").then(() => {
+          //   setIsRegister(false);
+          //   resetPayload();
+          // });
         } else {
           Swal.fire("Oops", response.message, "error");
         }
@@ -74,7 +90,6 @@ const Login = () => {
           dispatch(
             logInSuccess({
               isLoggedIn: true,
-              currentUser: response.userData,
               accessToken: response.accessToken,
             })
           );
@@ -85,6 +100,19 @@ const Login = () => {
       }
     }
   }, [payload, isRegister, navigate, dispatch]);
+  const finalRegister = async () => {
+    const response = await apiFinalRegister(token);
+    if (response.success) {
+      Swal.fire("Congratulation", response.message, "success").then(() => {
+        setIsRegister(false);
+        resetPayload();
+      });
+    } else {
+      Swal.fire("Oops", response.message, "error");
+    }
+    setIsVerifiedEmail(false);
+    setToken("");
+  };
   return (
     <>
       <div className="flex items-center justify-center mb-10">
@@ -192,9 +220,38 @@ const Login = () => {
               placeholder="example: email@gmail.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              onFocus={() => setIsValidateEmailResetPassword(false)}
             />
+            {isValidateEmailResetPassword && (
+              <small className="text-main text-[12px] italic">
+                Invalid email
+              </small>
+            )}
             <div className="flex justify-end">
               <Button name="Submit" handleOnClick={handleForgotPassword} />
+            </div>
+          </div>
+        </div>
+      )}
+      {isVerifiedEmail && (
+        <div className="fixed inset-0 bg-overlay flex items-center justify-center">
+          <div className="bg-white rounded-sm p-8 relative">
+            <button
+              className="px-4 py-2 text-white bg-main text-semibold absolute top-0 right-0"
+              onClick={() => setIsVerifiedEmail(true)}
+            >
+              {<icons.IoMdClose />}
+            </button>
+            <h4 className="mt-4">
+              We sent a code to your email. Please enter code
+            </h4>
+            <div className="flex justify-between items-center gap-2">
+              <input
+                type="text"
+                className="border rounded-md outline-none w-full p-2 h-10"
+                onChange={(e) => setToken(e.target.value)}
+              />
+              <Button name="Submit" handleOnClick={finalRegister} />
             </div>
           </div>
         </div>

@@ -24,12 +24,13 @@ const Header = () => {
           </span>
           <span>Online Support 24/7</span>
         </div>
-        <div className="flex items-center justify-center gap-2 border-r px-6">
+        <div className="cursor-pointer flex items-center justify-center gap-2 border-r px-6">
           <icons.BsHandbagFill className="text-main" />
           <span>0 items</span>
         </div>
-        <div className="flex items-center justify-center  px-6">
-          <icons.FaUserCircle size={24} />
+        <div className="cursor-pointer flex items-center justify-center gap-2  px-6">
+          <icons.FaUserCircle className="text-main" />
+          <span>Profile</span>
         </div>
       </div>
     </div>

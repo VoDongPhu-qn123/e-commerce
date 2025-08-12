@@ -4,6 +4,7 @@ import productsSlice from "./products/productsSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
 import userSlice from "./user/userSlice";
+import logOutMiddleware from "./user/logOutMiddleware";
 const commonConfig = {
   key: "shop/user",
   storage,
@@ -21,6 +22,6 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false, // ❗ KHÔNG khuyến khích cho production
-    }),
+    }).concat(logOutMiddleware),
 });
 export const persistor = persistStore(store);

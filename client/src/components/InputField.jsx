@@ -2,7 +2,7 @@ import React, { memo, forwardRef } from "react";
 import { formatLabel } from "../ultils/helpers";
 const InputField = forwardRef(
   (
-    { type, value, setValue, nameKey, invalidFields, setInvalidFields },
+    { type, value, setValue, nameKey, invalidFields, setInvalidFields, style },
     ref
   ) => {
     const handleOnFocus = () => {
@@ -17,7 +17,6 @@ const InputField = forwardRef(
         setInvalidFields(newInvalidFields);
       }
     };
-
     return (
       <div className="w-full flex flex-col mb-2 relative">
         {value.trim() !== "" && (
@@ -38,7 +37,10 @@ const InputField = forwardRef(
             setValue((prev) => ({ ...prev, [nameKey]: e.target.value }))
           }
           onFocus={handleOnFocus}
-          className="px-4 py-2 rounded-md border w-full mt-2 text-sm placeholder:text-sm"
+          className={
+            style ||
+            "px-4 py-2 rounded-md border w-full mt-2 text-sm placeholder:text-sm"
+          }
         />
 
         {invalidFields?.some((el) => el.name === nameKey) && (
