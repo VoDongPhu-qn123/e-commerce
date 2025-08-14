@@ -1,6 +1,6 @@
 import React from "react";
 import { renderStarsFromNumber } from "../ultils/renderStar";
-import { formatMoney } from "../ultils/helpers";
+import { formatMoney, formatPrice } from "../ultils/helpers";
 const ProductCard = ({ productData }) => {
   return (
     <div className="w-1/3 flex flex-auto mb-5 px-[10px]">
@@ -15,7 +15,9 @@ const ProductCard = ({ productData }) => {
             {renderStarsFromNumber(productData?.totalRatings)}
           </span>
           <span>{productData?.name}</span>
-          <span className="text-main">{formatMoney(productData?.price)}</span>
+          <span className="text-main">
+            {formatMoney(formatPrice(productData?.price))}
+          </span>
         </div>
       </div>
     </div>

@@ -5,6 +5,9 @@ export const formatMoney = (number) => {
     currency: "VND",
   });
 };
+export const formatPrice = (number) => {
+  return Math.round(number / 1000) * 1000;
+};
 export const formatLabel = (str) => {
   return str.replace(/([A-Z])/g, " $1").replace(/^./, (c) => c.toUpperCase());
 };

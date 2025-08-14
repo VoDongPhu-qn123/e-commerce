@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { formatMoney } from "../ultils/helpers";
+import { formatMoney, formatPrice } from "../ultils/helpers";
 import label from "../assets/label.png";
 import labelBlue from "../assets/label-blue.png";
 import { renderStarsFromNumber } from "../ultils/renderStar";
@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import PATH from "../ultils/path";
 
 const { FaEye, FaHeart, IoMdMenu } = icons;
-const Product = ({ productData, isNew }) => {
+const Product = ({ productData, isNew, normal }) => {
   const [isShowOption, setIsShowOption] = useState(false);
   return (
     <div className="w-full text-base px-[10px]">
@@ -35,19 +35,23 @@ const Product = ({ productData, isNew }) => {
               alt=""
               className="w-full h-[274px] object-cover"
             />
-            <img
-              src={isNew ? label : labelBlue}
-              alt=""
-              className="absolute top-0 left-[-22px] w-[100px] h-[35px] object-cover"
-            />
-            {isNew ? (
-              <span className="font-semibold text-white absolute top-0 left-0 text-[12px]">
-                New
-              </span>
-            ) : (
-              <span className="font-semibold text-white absolute top-0 left-0  text-[12px] ">
-                Trending
-              </span>
+            {!normal && (
+              <>
+                <img
+                  src={isNew ? label : labelBlue}
+                  alt=""
+                  className="absolute top-0 left-[-22px] w-[100px] h-[35px] object-cover"
+                />
+                {isNew ? (
+                  <span className="font-semibold text-white absolute top-0 left-0 text-[12px]">
+                    New
+                  </span>
+                ) : (
+                  <span className="font-semibold text-white absolute top-0 left-0  text-[12px] ">
+                    Trending
+                  </span>
+                )}
+              </>
             )}
           </div>
           <div className="flex flex-col gap-1 mt-[15px] items-start w-full ">
@@ -55,7 +59,9 @@ const Product = ({ productData, isNew }) => {
               {renderStarsFromNumber(productData?.totalRatings)}
             </span>
             <span>{productData?.name}</span>
-            <span className="text-main">{formatMoney(productData?.price)}</span>
+            <span className="text-main">
+              {formatMoney(formatPrice(productData?.price))}
+            </span>
           </div>
         </div>
       </Link>

@@ -19,6 +19,11 @@ import { FaLinkedinIn } from "react-icons/fa6";
 import { FaFlickr } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { IoLogOutOutline } from "react-icons/io5";
+import { FaShieldAlt } from "react-icons/fa";
+import { FaTruck } from "react-icons/fa";
+import { FaGift } from "react-icons/fa";
+import { FaReply } from "react-icons/fa";
+import { FaHeadphones } from "react-icons/fa";
 const icons = {
   FaPhone,
   MdEmail,
@@ -39,5 +44,10 @@ const icons = {
   FaFlickr,
   IoMdClose,
   IoLogOutOutline,
+  FaShieldAlt,
+  FaTruck,
+  FaGift,
+  FaReply,
+  FaHeadphones,
 };
 export default icons;
