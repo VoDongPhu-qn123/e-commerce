@@ -91,3 +91,43 @@ export const productInfoTab = [
     title: "CUSTOMER REVIEW",
   },
 ];
+
+export const colors = [
+  "black",
+  "gold",
+  "gray",
+  "white",
+  "pink",
+  "yellow",
+  "orange",
+  "purple",
+  "green",
+  "blue",
+];
+export const sorts = [
+  {
+    id: 1,
+    value: "-sold",
+    text: "Best selling",
+  },
+  {
+    id: 2,
+    value: "title",
+    text: "A-Z",
+  },
+  {
+    id: 3,
+    value: "-title",
+    text: "Z-A",
+  },
+  {
+    id: 4,
+    value: "price",
+    text: "Price, low to high",
+  },
+  {
+    id: 5,
+    value: "-price",
+    text: "Price, high to low",
+  },
+];

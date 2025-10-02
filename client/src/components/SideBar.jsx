@@ -1,8 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import { createSlug } from "../ultils/helpers";
-
 const SideBar = () => {
   const categories = useSelector((state) => state.app.categories);
   return (
@@ -10,7 +8,7 @@ const SideBar = () => {
       {categories?.map((el) => (
         <NavLink
           key={el._id}
-          to={createSlug(el.name)}
+          to={el.name}
           className={({ isActive }) =>
             isActive
               ? "bg-main text-white px-5, pt-[15px] pb-[14px] text-sm hover:text-main"

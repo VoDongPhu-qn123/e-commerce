@@ -24,6 +24,7 @@ import { FaTruck } from "react-icons/fa";
 import { FaGift } from "react-icons/fa";
 import { FaReply } from "react-icons/fa";
 import { FaHeadphones } from "react-icons/fa";
+import { RxCaretDown } from "react-icons/rx";
 const icons = {
   FaPhone,
   MdEmail,
@@ -49,5 +50,6 @@ const icons = {
   FaGift,
   FaReply,
   FaHeadphones,
+  RxCaretDown,
 };
 export default icons;

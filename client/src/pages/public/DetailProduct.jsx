@@ -40,7 +40,6 @@ const DetailProduct = () => {
       setProductsByCategory(response.productData);
     }
   };
-  console.log("re-render");
   const handleQuanity = useCallback((number) => {
     if (number === "") {
       setQuanity("");
@@ -71,8 +70,7 @@ const DetailProduct = () => {
         console.log(err)
       );
     }
-  }, [productId]);
-
+  }, []);
   return (
     <div className="w-full">
       <div className="h-[81px] bg-[#f7f7f7] -mt-6 flex flex-col justify-center">

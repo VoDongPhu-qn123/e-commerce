@@ -13,7 +13,7 @@ const BreadCrumb = ({ name, category }) => {
       {breadcrumbs.map(
         ({ match, breadcrumb }, index) =>
           match.route && (
-            <span className="text-sm " key={match.pathname}>
+            <span className="text-sm capitalize" key={match.pathname}>
               <NavLink
                 to={match.pathname}
                 end

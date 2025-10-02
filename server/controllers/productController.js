@@ -37,7 +37,12 @@ const getProducts = asyncHandler(async (req, res) => {
   ); // replace chỉ dùng cho string nên phải chuyển queries sang chuỗi JSON
   const formatedQueries = JSON.parse(queryString);
   //Filtering
-
+  if (queries?.color) {
+    const colorQuery = queries.color.split(",").map((el) => el.trim());
+    formatedQueries.color = {
+      $in: colorQuery.map((el) => new RegExp(`^${el}$`, "i")),
+    };
+  }
   // Xử lí tìm kiếm mở cho tên sản phẩm
   if (queries?.name) {
     formatedQueries.name = { $regex: queries.name, $options: "i" };
