@@ -5,8 +5,15 @@ const appSlice = createSlice({
   initialState: {
     categories: null,
     isLoading: false,
+    isShowModal: false,
+    modalChildren: null,
   },
-  reducers: {}, // Xử lí các action bình thường
+  reducers: {
+    showModal: (state, action) => {
+      state.isShowModal = action.payload.isShowModal;
+      state.modalChildren = action.payload.modalChildren;
+    },
+  }, // Xử lí các action bình thường
   extraReducers: (builder) => {
     builder.addCase(actions.getCategories.pending, (state) => {
       state.isLoading = true;
@@ -21,4 +28,5 @@ const appSlice = createSlice({
     });
   }, //Xử lí các async action
 });
+export const { showModal } = appSlice.actions;
 export default appSlice;

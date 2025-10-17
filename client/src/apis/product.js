@@ -14,3 +14,11 @@ export const apiGetProduct = async (productId) => {
   });
   return response;
 };
+export const apiRatings = async (data) => {
+  const response = await axios({
+    url: "/product/ratings",
+    method: "PUT",
+    data,
+  });
+  return response;
+};

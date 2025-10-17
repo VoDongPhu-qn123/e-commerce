@@ -21,7 +21,7 @@ const fnProduct = async (product) => {
       ?.variants[0],
     ram: product?.variants?.find((el) => el.label === "Ram")?.variants[0],
     thumbnail: product?.thumbnail,
-    totalRatings: Math.round(Math.random() * 5),
+    totalRatings: 0,
   });
 };
 const fnCategory = async (category) => {

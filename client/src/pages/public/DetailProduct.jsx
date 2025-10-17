@@ -28,6 +28,7 @@ const DetailProduct = () => {
   const [productsByCategory, setProductsByCategory] = useState(null);
   const [indexImage, setIndexImage] = useState(null);
   const [quanity, setQuanity] = useState("1");
+  const [update, setUpdate] = useState(false);
   const fetchProduct = async () => {
     const response = await apiGetProduct(productId);
     if (response.success) {
@@ -64,13 +65,22 @@ const DetailProduct = () => {
     },
     [quanity]
   );
+  const reRender = useCallback(() => {
+    setUpdate(!update);
+  }, [update]);
   useEffect(() => {
     if (productId) {
       Promise.all([fetchProduct(), fetchProducts()]).catch((err) =>
         console.log(err)
       );
     }
-  }, []);
+    window.scroll(0, 0);
+  }, [productId]);
+  useEffect(() => {
+    if (productId) {
+      fetchProduct();
+    }
+  }, [update]);
   return (
     <div className="w-full">
       <div className="h-[81px] bg-[#f7f7f7] -mt-6 flex flex-col justify-center">
@@ -96,7 +106,7 @@ const DetailProduct = () => {
                 <div key={index} className="p-10px">
                   <img
                     src={el}
-                    className="h-[143px] w-[143px] p-[10px] border object-contain"
+                    className="h-[143px] w-[143px] p-[10px] border object-contain cursor-pointer"
                     onClick={() => setIndexImage(index)}
                   />
                 </div>
@@ -141,13 +151,19 @@ const DetailProduct = () => {
         </div>
       </div>
       <div className="w-main mt-8">
-        <ProductInfomation />
+        <ProductInfomation
+          avgRatings={productData?.totalRatings}
+          ratings={productData?.ratings}
+          nameProduct={productData?.name}
+          productId={productId}
+          reRender={reRender}
+        />
       </div>
       <h3 className=" font-semibold text-[20px] py-[15px] border-b-2 border-main mt-4 mb-12">
         Other Customers also buy:
       </h3>
       <div className=" mx-[-10px]">
-        <CustomSlider {...settings} products={productsByCategory} normal />
+        <CustomSlider products={productsByCategory} normal />
       </div>
       <div className="h-[300px]"></div>
     </div>

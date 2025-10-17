@@ -86,10 +86,6 @@ export const productInfoTab = [
     content:
       "Purchasing & Delivery Before you make your purchase, it’s helpful to know the measurements of the area you plan to place the furniture. You should also measure any doorways and hallways through which the furniture will pass to get to its final destination. Picking up at the store Shopify Shop requires that all products are properly inspected BEFORE you take it home to insure there are no surprises. Our team is happy to open all packages and will assist in the inspection process. We will then reseal packages for safe transport. We encourage all customers to bring furniture pads or blankets to protect the items during transport as well as rope or tie downs. Shopify Shop will not be responsible for damage that occurs after leaving the store or during transit. It is the purchaser’s responsibility to make sure the correct items are picked up and in good condition.",
   },
-  {
-    id: 5,
-    title: "CUSTOMER REVIEW",
-  },
 ];
 
 export const colors = [
@@ -129,5 +125,27 @@ export const sorts = [
     id: 5,
     value: "-price",
     text: "Price, high to low",
+  },
+];
+export const voteOptions = [
+  {
+    id: 1,
+    text: "Terrible",
+  },
+  {
+    id: 2,
+    text: "Bad",
+  },
+  {
+    id: 3,
+    text: "Neutral",
+  },
+  {
+    id: 4,
+    text: "Good",
+  },
+  {
+    id: 5,
+    text: "Perfect",
   },
 ];

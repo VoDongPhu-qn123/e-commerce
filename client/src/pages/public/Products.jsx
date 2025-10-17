@@ -10,6 +10,7 @@ import {
   Product,
   SearchItem,
   InputSelect,
+  CustomSlider,
 } from "../../components";
 import { apiGetProducts } from "../../apis";
 import Masonry from "react-masonry-css";
@@ -132,6 +133,7 @@ const Products = () => {
           ))}
         </Masonry>
       </div>
+
       <div className="w-full h-[500px]"></div>
     </div>
   );

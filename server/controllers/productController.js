@@ -16,7 +16,13 @@ const createProduct = asyncHandler(async (req, res) => {
 });
 const getProduct = asyncHandler(async (req, res) => {
   const { productId } = req.params;
-  const product = await Product.findById(productId);
+  const product = await Product.findById(productId).populate({
+    path: "ratings",
+    populate: {
+      path: "postedBy",
+      select: "firstName lastName avatar",
+    },
+  });
   return res.status(200).json({
     success: product ? true : false,
     productData: product ? product : "Cannot get product",
@@ -125,7 +131,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
 //Ratings
 const ratings = asyncHandler(async (req, res) => {
   const { _id } = req.user;
-  const { star, comment, productId } = req.body;
+  const { star, comment, productId, updatedAt } = req.body;
   if (!star || !comment) {
     throw new Error("Missing input");
   }
@@ -150,6 +156,7 @@ const ratings = asyncHandler(async (req, res) => {
     // );
     ratingProduct.ratings[alreadyRatingindex].star = star;
     ratingProduct.ratings[alreadyRatingindex].comment = comment;
+    ratingProduct.ratings[alreadyRatingindex].updatedAt = updatedAt;
   } else {
     // add star & comment (lần đầu đánh giá)
     // await Product.findByIdAndUpdate(
@@ -159,7 +166,7 @@ const ratings = asyncHandler(async (req, res) => {
     //   },
     //   { new: true }
     // );
-    ratingProduct.ratings.push({ star, comment, postedBy: _id });
+    ratingProduct.ratings.push({ star, comment, postedBy: _id, updatedAt });
   }
   //avgRatings
   //const updatedProduct = await Product.findById(productId);

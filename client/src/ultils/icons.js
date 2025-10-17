@@ -5,6 +5,7 @@ import {
   FaUserCircle,
   FaStar,
   FaRegStar,
+  FaStarHalfAlt,
   FaEye,
   FaHeart,
 } from "react-icons/fa";
@@ -51,5 +52,6 @@ const icons = {
   FaReply,
   FaHeadphones,
   RxCaretDown,
+  FaStarHalfAlt,
 };
 export default icons;

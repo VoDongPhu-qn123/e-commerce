@@ -14,18 +14,21 @@ import {
 } from "./pages/public";
 import { getCategories } from "./store/app/asyncActions";
 import { getNewProducts } from "./store/products/asyncAction";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PATH from "./ultils/path";
 import { useEffect } from "react";
 import { ToastContainer, Bounce } from "react-toastify";
+import { Modal } from "./components";
 function App() {
   const dispatch = useDispatch();
+  const { isShowModal, modalChildren } = useSelector((state) => state.app);
   useEffect(() => {
     dispatch(getCategories());
     dispatch(getNewProducts());
   }, [dispatch]);
   return (
-    <div className="min-h-screen font-main">
+    <div className="font-main relative">
+      {isShowModal && <Modal>{modalChildren}</Modal>}
       <Routes path>
         <Route path={PATH.PUBLIC} element={<Public />}>
           <Route path={PATH.HOME} element={<Home />}></Route>
